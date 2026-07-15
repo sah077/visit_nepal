@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visit Nepal 2027</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --green:#1a6b3c;--green-light:#2d9e5f;--green-pale:#e8f5ee;
+    --blue:#1a4a8a;--blue-light:#2563c4;--blue-pale:#e8f0fb;
+    --orange:#c45a1a;--orange-light:#e87a2a;--orange-pale:#fdf0e8;
+    --gold:#b8860b;--gold-light:#e0a820;
+    --text:#1a1a1a;--text2:#4a4a4a;--text3:#7a7a7a;
+    --bg:#fff;--bg2:#f7f9f5;--bg3:#f0f4ff;
+    --border:#e0e4d8;--radius:12px;--shadow:0 2px 16px rgba(0,0,0,.1)
+  }
+  body{font-family:Georgia,serif;color:var(--text);background:var(--bg);line-height:1.6;overflow-x:hidden}
+  
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px}
+  .nav-logo{font-size:1.1rem;font-weight:700;color:var(--green);letter-spacing:.5px;cursor:pointer}
+  .nav-logo span{color:var(--orange)}
+  .nav-links{display:flex;gap:0;list-style:none}
+  .nav-links a{padding:.5rem .9rem;font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2);cursor:pointer;border-radius:6px;transition:.15s;text-decoration:none;display:block}
+  .nav-links a:hover{background:var(--green-pale);color:var(--green)}
+  .nav-links a.active{color:var(--green);font-weight:600}
+  .nav-cta{background:var(--green);color:#fff;border:none;padding:.45rem 1.1rem;border-radius:20px;font-size:.8rem;font-family:system-ui,sans-serif;cursor:pointer;transition:.15s}
+  .nav-cta:hover{background:var(--green-light)}
+
+  /* PAGES */
+  .page{display:none;min-height:calc(100vh - 60px)}
+  .page.active{display:block}
+
+  /* HERO */
+  .hero{position:relative;height:520px;overflow:hidden;background:linear-gradient(135deg,#0d3320 0%,#1a6b3c 30%,#1a4a8a 70%,#0d2050 100%);display:flex;align-items:center;justify-content:center;text-align:center}
+  .hero-art{position:absolute;inset:0;overflow:hidden}
+  .mtn-layer{position:absolute;bottom:0;width:100%}
+  .hero-content{position:relative;z-index:2;color:#fff;padding:2rem}
+  .hero-badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:.3rem 1rem;border-radius:20px;font-size:.75rem;font-family:system-ui,sans-serif;margin-bottom:1rem;letter-spacing:1px}
+  .hero-title{font-size:3rem;font-weight:700;line-height:1.1;margin-bottom:.5rem;text-shadow:0 2px 20px rgba(0,0,0,.3)}
+  .hero-title span{color:#f9c74f}
+  .hero-sub{font-size:1.1rem;opacity:.9;margin-bottom:2rem;font-family:system-ui,sans-serif;max-width:500px;margin-left:auto;margin-right:auto}
+  .hero-stats{display:flex;gap:2rem;justify-content:center;margin-bottom:2rem}
+  .hero-stat{text-align:center}
+  .hero-stat-num{font-size:1.6rem;font-weight:700;color:#f9c74f}
+  .hero-stat-lbl{font-size:.7rem;font-family:system-ui,sans-serif;opacity:.8;text-transform:uppercase;letter-spacing:.5px}
+  .hero-btns{display:flex;gap:1rem;justify-content:center}
+  .btn-primary{background:var(--orange-light);color:#fff;border:none;padding:.7rem 1.5rem;border-radius:25px;font-size:.85rem;font-family:system-ui,sans-serif;cursor:pointer;font-weight:600;transition:.15s}
+  .btn-primary:hover{background:var(--orange)}
+  .btn-secondary{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.4);padding:.7rem 1.5rem;border-radius:25px;font-size:.85rem;font-family:system-ui,sans-serif;cursor:pointer;transition:.15s}
+  .btn-secondary:hover{background:rgba(255,255,255,.25)}
+
+  /* SECTIONS */
+  .section{padding:3rem 2rem}
+  .section-alt{background:var(--bg2)}
+  .section-title{font-size:1.6rem;color:var(--green);margin-bottom:.4rem}
+  .section-sub{font-size:.9rem;font-family:system-ui,sans-serif;color:var(--text3);margin-bottom:2rem}
+  .section-header{margin-bottom:2rem}
+  .tag{display:inline-block;background:var(--green-pale);color:var(--green);font-size:.7rem;font-family:system-ui,sans-serif;padding:.2rem .7rem;border-radius:10px;margin-bottom:.5rem;letter-spacing:.5px;font-weight:600}
+
+ /* CARDS GRID */
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1.2rem;
+}
+
+.grid-2{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;
+}
+
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  transition:.2s;
+  cursor:pointer;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
+}
+
+/* ===========================
+   DESTINATION CARD IMAGES
+   =========================== */
+
+.card-img{
+    height:160px;
+    display:flex;
+    align-items:flex-end;
+    padding:1rem;
+    position:relative;
+    overflow:hidden;
+}
+
+.card-img::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    transition:transform .5s ease;
+    z-index:0;
+}
+
+.card:hover .card-img::after{
+    transform:scale(1.08);
+}
+
+.card-img::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,.60),
+        rgba(0,0,0,.20)
+    );
+    z-index:1;
+}
+
+.card-img>*{
+    position:relative;
+    z-index:2;
+}
+
+.card-img-label{
+    color:#fff;
+    font-size:.9rem;
+    font-weight:700;
+    text-shadow:0 2px 8px rgba(0,0,0,.8);
+}
+
+.card-img-sub{
+    color:rgba(255,255,255,.9);
+    font-size:.7rem;
+    font-family:system-ui,sans-serif;
+}
+
+/* ===========================
+   DESTINATION PHOTOS
+   =========================== */
+
+.d-ktm::after{
+    background-image:url("images/kathmandu.jpg");
+}
+
+.d-pkr::after{
+    background-image:url("images/pokhara.jpg");
+}
+
+.d-chit::after{
+    background-image:url("images/chitwan.jpg");
+}
+
+.d-lmb::after{
+    background-image:url("images/lumbini.jpg");
+}
+
+.d-mst::after{
+    background-image:url("images/mustang.jpg");
+}
+
+.d-ebc::after{
+    background-image:url("images/everest.jpg");
+}
+
+.d-ann::after{
+    background-image:url("images/annapurna.jpg");
+}
+
+.d-rara::after{
+    background-image:url("images/rara.jpg");
+}
+
+.d-ilam::after{
+    background-image:url("images/ilam.jpg");
+}
+
+.d-jnk::after{
+    background-image:url("images/janakpur.jpg");
+}
+  /* TREK CARDS */
+  .trek-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;cursor:pointer;transition:.2s}
+  .trek-card:hover{border-color:var(--green);box-shadow:0 4px 20px rgba(26,107,60,.1)}
+  .trek-name{font-size:1rem;font-weight:700;margin-bottom:.5rem;color:var(--green)}
+  .trek-stats{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.7rem 0}
+  .trek-stat{background:var(--bg2);border-radius:8px;padding:.5rem .7rem}
+  .trek-stat-label{font-size:.65rem;font-family:system-ui,sans-serif;color:var(--text3);text-transform:uppercase;letter-spacing:.3px}
+  .trek-stat-val{font-size:.85rem;font-weight:600;color:var(--text)}
+  .difficulty-easy{color:#2d9e5f}
+  .difficulty-mod{color:var(--gold)}
+  .difficulty-hard{color:#c43a1a}
+
+  /* ADVENTURE */
+  .adv-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;text-align:center;cursor:pointer;transition:.2s}
+  .adv-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .adv-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .8rem;font-size:1.4rem}
+  .adv-name{font-size:.9rem;font-weight:700;margin-bottom:.2rem}
+  .adv-price{font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text3)}
+
+  /* FESTIVALS */
+  .fest-card{display:flex;gap:1rem;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1rem;cursor:pointer;transition:.2s}
+  .fest-card:hover{border-color:var(--orange)}
+  .fest-date{min-width:52px;text-align:center;background:var(--orange-pale);border-radius:8px;padding:.5rem;font-family:system-ui,sans-serif}
+  .fest-month{font-size:.65rem;color:var(--orange);text-transform:uppercase;font-weight:600}
+  .fest-day{font-size:1.4rem;font-weight:700;color:var(--orange);line-height:1}
+  .fest-info{}
+  .fest-name{font-size:.9rem;font-weight:700;margin-bottom:.2rem}
+  .fest-desc{font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2)}
+
+  /* TESTIMONIALS */
+  .testi-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem}
+  .testi-stars{color:var(--gold-light);font-size:1rem;margin-bottom:.7rem}
+  .testi-text{font-size:.9rem;color:var(--text2);font-style:italic;margin-bottom:1rem;line-height:1.6}
+  .testi-author{display:flex;align-items:center;gap:.7rem;font-family:system-ui,sans-serif}
+  .testi-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff}
+  .testi-name{font-size:.85rem;font-weight:600}
+  .testi-from{font-size:.75rem;color:var(--text3)}
+
+  /* DESTINATION DETAIL */
+  .detail-hero{height:280px;border-radius:var(--radius);margin-bottom:2rem;display:flex;align-items:flex-end;padding:1.5rem;position:relative;overflow:hidden}
+  .detail-hero h1{color:#fff;font-size:2rem;text-shadow:0 2px 8px rgba(0,0,0,.4);position:relative;z-index:1}
+  .detail-hero-tag{color:rgba(255,255,255,.8);font-family:system-ui,sans-serif;font-size:.85rem;position:relative;z-index:1}
+  .detail-grid{display:grid;grid-template-columns:2fr 1fr;gap:2rem}
+  .info-box{background:var(--bg2);border-radius:var(--radius);padding:1.2rem;margin-bottom:1rem}
+  .info-box h3{font-size:.9rem;color:var(--green);margin-bottom:.7rem;font-family:system-ui,sans-serif;font-weight:700}
+  .info-row{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:.82rem;font-family:system-ui,sans-serif}
+  .info-row:last-child{border-bottom:none}
+  .info-row span:first-child{color:var(--text3)}
+  .info-row span:last-child{font-weight:600;color:var(--text)}
+  .attractions-list{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}
+
+  /* PLAN YOUR TRIP */
+  .plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}
+  .plan-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem}
+  .plan-icon{font-size:1.5rem;margin-bottom:.7rem}
+  .plan-title{font-size:.95rem;font-weight:700;margin-bottom:.4rem;color:var(--green)}
+  .plan-desc{font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2);line-height:1.5}
+
+  /* BUDGET CALC */
+  .budget-calc{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;max-width:520px}
+  .budget-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;gap:1rem}
+  .budget-label{font-size:.85rem;font-family:system-ui,sans-serif;color:var(--text2);min-width:140px}
+  .budget-input{flex:1;font-family:system-ui,sans-serif;font-size:.85rem;padding:.4rem .7rem;border:1px solid var(--border);border-radius:6px;color:var(--text)}
+  .budget-total{background:var(--green-pale);border-radius:8px;padding:1rem;display:flex;justify-content:space-between;align-items:center;font-family:system-ui,sans-serif}
+  .budget-total-label{font-size:.85rem;color:var(--green);font-weight:600}
+  .budget-total-val{font-size:1.3rem;font-weight:700;color:var(--green)}
+
+  /* GALLERY */
+  .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem}
+  .gallery-item{border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;cursor:pointer;position:relative;transition:.2s}
+  .gallery-item:hover{transform:scale(1.02)}
+  .gallery-item:nth-child(3n+1){aspect-ratio:4/3}
+  .gallery-item:nth-child(6n+1){grid-column:span 2}
+
+  /* NEWSLETTER */
+  .newsletter{background:linear-gradient(135deg,var(--green) 0%,#0d4025 100%);color:#fff;padding:3rem 2rem;text-align:center}
+  .newsletter h2{font-size:1.6rem;margin-bottom:.5rem}
+  .newsletter p{font-family:system-ui,sans-serif;opacity:.85;margin-bottom:1.5rem}
+  .nl-form{display:flex;gap:.7rem;justify-content:center;max-width:420px;margin:0 auto}
+  .nl-input{flex:1;padding:.65rem 1rem;border-radius:25px;border:none;font-size:.85rem;font-family:system-ui,sans-serif}
+  .nl-btn{background:var(--orange-light);color:#fff;border:none;padding:.65rem 1.2rem;border-radius:25px;font-size:.85rem;font-family:system-ui,sans-serif;cursor:pointer;font-weight:600;white-space:nowrap}
+
+  /* FOOTER */
+  footer{background:#0d2010;color:#fff;padding:2.5rem 2rem 1.5rem}
+  .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2rem;margin-bottom:2rem}
+  .footer-col h4{font-size:.85rem;font-family:system-ui,sans-serif;font-weight:700;margin-bottom:1rem;color:#a8d8b0;letter-spacing:.5px}
+  .footer-col ul{list-style:none}
+  .footer-col ul li{margin-bottom:.5rem}
+  .footer-col ul li a{font-size:.78rem;font-family:system-ui,sans-serif;color:rgba(255,255,255,.6);cursor:pointer;transition:.15s;text-decoration:none}
+  .footer-col ul li a:hover{color:#fff}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:1.2rem;display:flex;justify-content:space-between;align-items:center;font-size:.75rem;font-family:system-ui,sans-serif;color:rgba(255,255,255,.4)}
+
+  /* BACK BTN */
+  .back-btn{display:inline-flex;align-items:center;gap:.4rem;color:var(--green);font-size:.85rem;font-family:system-ui,sans-serif;cursor:pointer;margin-bottom:1.5rem;padding:.4rem 0}
+  .back-btn:hover{color:var(--green-light)}
+
+  /* CONTACT */
+  .contact-form{max-width:500px}
+  .form-group{margin-bottom:1rem}
+  .form-label{display:block;font-size:.82rem;font-family:system-ui,sans-serif;color:var(--text2);margin-bottom:.3rem;font-weight:600}
+  .form-input{width:100%;padding:.6rem .9rem;border:1px solid var(--border);border-radius:8px;font-size:.85rem;font-family:system-ui,sans-serif;color:var(--text);transition:.15s}
+  .form-input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px rgba(26,107,60,.1)}
+  .form-textarea{height:120px;resize:vertical}
+  .submit-btn{background:var(--green);color:#fff;border:none;padding:.7rem 1.5rem;border-radius:25px;font-size:.85rem;font-family:system-ui,sans-serif;cursor:pointer;font-weight:600;transition:.15s}
+  .submit-btn:hover{background:var(--green-light)}
+  .contact-info{background:var(--bg2);border-radius:var(--radius);padding:1.5rem}
+  .contact-info-item{display:flex;gap:.8rem;align-items:flex-start;margin-bottom:1rem;font-family:system-ui,sans-serif}
+  .contact-info-icon{font-size:1.1rem;margin-top:.1rem}
+  .contact-info-label{font-size:.75rem;color:var(--text3);font-weight:600;display:block}
+  .contact-info-val{font-size:.85rem;color:var(--text)}
+
+  /* MOUNTAIN ART SVG */
+  .mountain-scene{width:100%;height:180px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">🏔️ Visit Nepal <span>2027</span></div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a onclick="showPage('destinations')" id="nav-destinations">Destinations</a></li>
+    <li><a onclick="showPage('trekking')" id="nav-trekking">Trekking</a></li>
+    <li><a onclick="showPage('adventures')" id="nav-adventures">Adventures</a></li>
+    <li><a onclick="showPage('culture')" id="nav-culture">Culture</a></li>
+    <li><a onclick="showPage('plan')" id="nav-plan">Plan Trip</a></li>
+    <li><a onclick="showPage('gallery')" id="nav-gallery">Gallery</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('plan')">Plan Your Trip</button>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-art">
+      <svg class="mountain-scene" viewBox="0 0 800 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d2050" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#1a3060" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- Stars -->
+        <circle cx="50" cy="20" r="1" fill="rgba(255,255,255,.6)"/>
+        <circle cx="130" cy="10" r="1.5" fill="rgba(255,255,255,.8)"/>
+        <circle cx="220" cy="25" r="1" fill="rgba(255,255,255,.5)"/>
+        <circle cx="350" cy="8" r="2" fill="rgba(255,255,255,.9)"/>
+        <circle cx="500" cy="18" r="1" fill="rgba(255,255,255,.6)"/>
+        <circle cx="650" cy="12" r="1.5" fill="rgba(255,255,255,.7)"/>
+        <circle cx="750" cy="22" r="1" fill="rgba(255,255,255,.5)"/>
+        <!-- Distant mountains (dark blue) -->
+        <polygon points="0,120 60,50 120,90 180,40 260,80 320,30 400,70 460,20 540,60 600,35 660,75 720,45 800,80 800,180 0,180" fill="rgba(13,32,80,.7)"/>
+        <!-- Mid mountains (dark green) -->
+        <polygon points="0,150 80,90 160,120 240,75 320,110 400,60 480,100 560,70 640,105 720,80 800,110 800,180 0,180" fill="rgba(13,64,32,.7)"/>
+        <!-- Snow caps -->
+        <polygon points="400,60 420,75 380,75" fill="rgba(255,255,255,.8)"/>
+        <polygon points="460,20 485,40 435,40" fill="rgba(255,255,255,.9)"/>
+        <polygon points="320,30 342,48 298,48" fill="rgba(255,255,255,.85)"/>
+        <polygon points="600,35 618,52 582,52" fill="rgba(255,255,255,.8)"/>
+        <!-- Foreground hills (very dark green) -->
+        <polygon points="0,165 100,135 200,155 300,130 400,150 500,125 600,145 700,130 800,150 800,180 0,180" fill="rgba(8,40,20,.8)"/>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">✨ OFFICIAL TOURISM CAMPAIGN</div>
+      <h1 class="hero-title">Visit <span>Nepal</span><br>2027</h1>
+      <p class="hero-sub">Where the Himalayas meet heaven — discover the world's rooftop, ancient temples, and untouched wilderness.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num">8</div><div class="hero-stat-lbl">8000m+ Peaks</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">10</div><div class="hero-stat-lbl">Heritage Sites</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">125+</div><div class="hero-stat-lbl">Ethnic Groups</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">846</div><div class="hero-stat-lbl">Bird Species</div></div>
+      </div>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('destinations')">Explore Destinations</button>
+        <button class="btn-secondary" onclick="showPage('trekking')">Popular Treks</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Destinations -->
+  <div class="section">
+    <div class="tag">DESTINATIONS</div>
+    <h2 class="section-title">Explore Nepal</h2>
+    <p class="section-sub">From Himalayan peaks to jungle lowlands — every region tells a story</p>
+    <div class="grid-3">
+      <div class="card" onclick="showDestDetail('ktm')">
+        <div class="card-img d-ktm"><div><div class="card-img-label">Kathmandu</div><div class="card-img-sub">Ancient Capital</div></div></div>
+        <div class="card-body"><div class="card-title">Kathmandu Valley</div><p class="card-desc">7 UNESCO heritage sites, ancient stupas, vibrant Thamel district and living goddess tradition.</p><div class="card-meta"><span>🏛️ Heritage</span><span>🍜 Cuisine</span><span>🛍️ Shopping</span></div></div>
+      </div>
+      <div class="card" onclick="showDestDetail('pkr')">
+        <div class="card-img d-pkr"><div><div class="card-img-label">Pokhara</div><div class="card-img-sub">Lake City</div></div></div>
+        <div class="card-body"><div class="card-title">Pokhara</div><p class="card-desc">Mirror lakes reflecting the Annapurna range, paragliding paradise and adventure capital.</p><div class="card-meta"><span>🪂 Paragliding</span><span>🚣 Boating</span><span>🏔️ Views</span></div></div>
+      </div>
+      <div class="card" onclick="showDestDetail('chit')">
+        <div class="card-img d-chit"><div><div class="card-img-label">Chitwan</div><div class="card-img-sub">Wild Nepal</div></div></div>
+        <div class="card-body"><div class="card-title">Chitwan National Park</div><p class="card-desc">UNESCO World Heritage jungle with one-horned rhinos, Bengal tigers and elephant safari.</p><div class="card-meta"><span>🦏 Wildlife</span><span>🐘 Safari</span><span>🌿 Jungle</span></div></div>
+      </div>
+      <div class="card" onclick="showDestDetail('lmb')">
+        <div class="card-img d-lmb"><div><div class="card-img-label">Lumbini</div><div class="card-img-sub">Birthplace of Buddha</div></div></div>
+        <div class="card-body"><div class="card-title">Lumbini</div><p class="card-desc">Sacred birthplace of Lord Buddha — monasteries from 42 countries in a serene sacred garden.</p><div class="card-meta"><span>☮️ Spiritual</span><span>🏛️ Heritage</span></div></div>
+      </div>
+      <div class="card" onclick="showDestDetail('mst')">
+        <div class="card-img d-mst"><div><div class="card-img-label">Mustang</div><div class="card-img-sub">Forbidden Kingdom</div></div></div>
+        <div class="card-body"><div class="card-title">Upper Mustang</div><p class="card-desc">Ancient walled kingdom with Tibetan culture, cave monasteries and lunar landscapes.</p><div class="card-meta"><span>🏯 Fortress</span><span>🎨 Culture</span></div></div>
+      </div>
+      <div class="card" onclick="showDestDetail('ebc')">
+        <div class="card-img d-ebc"><div><div class="card-img-label">Everest Region</div><div class="card-img-sub">Roof of the World</div></div></div>
+        <div class="card-body"><div class="card-title">Everest Region</div><p class="card-desc">Trek to Everest Base Camp at 5,364m, Sherpa culture and the most iconic mountain views on earth.</p><div class="card-meta"><span>⛰️ 8,849m</span><span>🧗 Trekking</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Festivals -->
+  <div class="section section-alt">
+    <div class="tag">FESTIVALS</div>
+    <h2 class="section-title">Upcoming Festivals</h2>
+    <p class="section-sub">Experience Nepal's vibrant cultural calendar</p>
+    <div class="grid-2">
+      <div class="fest-card"><div class="fest-date"><div class="fest-month">Oct</div><div class="fest-day">2</div></div><div class="fest-info"><div class="fest-name">Dashain</div><div class="fest-desc">Nepal's biggest festival celebrating the victory of goddess Durga. Kite flying, family gatherings and tika blessings.</div></div></div>
+      <div class="fest-card"><div class="fest-date"><div class="fest-month">Oct</div><div class="fest-day">21</div></div><div class="fest-info"><div class="fest-name">Tihar (Festival of Lights)</div><div class="fest-desc">Five days of worship — from crows to dogs to cows to siblings. Oil lamps illuminate every home.</div></div></div>
+      <div class="fest-card"><div class="fest-date"><div class="fest-month">Mar</div><div class="fest-day">8</div></div><div class="fest-info"><div class="fest-name">Holi</div><div class="fest-desc">Vibrant festival of colors heralding spring. Streets erupt in water balloons and colored powder.</div></div></div>
+      <div class="fest-card"><div class="fest-date"><div class="fest-month">Sep</div><div class="fest-day">12</div></div><div class="fest-info"><div class="fest-name">Indra Jatra</div><div class="fest-desc">Kumari chariot procession in Kathmandu — the living goddess is paraded through Basantapur Durbar Square.</div></div></div>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <div class="section">
+    <div class="tag">TESTIMONIALS</div>
+    <h2 class="section-title">Travelers Love Nepal</h2>
+    <p class="section-sub">Real stories from real adventurers</p>
+    <div class="grid-3">
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"The EBC trek changed my life. The Sherpa guides, the monasteries at dawn, the first sight of Everest — nothing prepares you for it."</p><div class="testi-author"><div class="testi-avatar" style="background:#2563c4">JM</div><div><div class="testi-name">James Mitchell</div><div class="testi-from">🇬🇧 London, UK</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Paragliding over Pokhara with the Annapurna range spread before me — I've travelled 40 countries and nothing tops this."</p><div class="testi-author"><div class="testi-avatar" style="background:#c45a1a">SL</div><div><div class="testi-name">Sakura Lindqvist</div><div class="testi-from">🇸🇪 Stockholm, Sweden</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Chitwan jungle safari was beyond magical — we spotted a tiger on day one! Nepal offers world-class wildlife at a fraction of the cost."</p><div class="testi-author"><div class="testi-avatar" style="background:#1a6b3c">RP</div><div><div class="testi-name">Rahul Patel</div><div class="testi-from">🇮🇳 Mumbai, India</div></div></div></div>
+    </div>
+  </div>
+
+  <!-- Newsletter -->
+  <div class="newsletter">
+    <h2>Stay Updated — Nepal 2027</h2>
+    <p>Get the latest travel guides, visa updates, and festival calendars delivered to your inbox.</p>
+    <div class="nl-form">
+      <input type="email" class="nl-input" placeholder="your@email.com">
+      <button class="nl-btn">Subscribe</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col"><h4>VISIT NEPAL 2027</h4><ul><li><a>About the Campaign</a></li><li><a>Tourism Board</a></li><li><a>Press & Media</a></li><li><a>Partners</a></li></ul></div>
+      <div class="footer-col"><h4>EXPLORE</h4><ul><li><a onclick="showPage('destinations')">Destinations</a></li><li><a onclick="showPage('trekking')">Trekking Routes</a></li><li><a onclick="showPage('adventures')">Adventure Sports</a></li><li><a onclick="showPage('culture')">Culture & Heritage</a></li></ul></div>
+      <div class="footer-col"><h4>PLAN YOUR TRIP</h4><ul><li><a onclick="showPage('plan')">Visa Information</a></li><li><a onclick="showPage('plan')">Best Time to Visit</a></li><li><a onclick="showPage('plan')">Budget Calculator</a></li><li><a onclick="showPage('plan')">Safety Tips</a></li></ul></div>
+      <div class="footer-col"><h4>CONTACT</h4><ul><li><a>Nepal Tourism Board</a></li><li><a>+977-1-4256909</a></li><li><a>info@ntb.gov.np</a></li><li><a onclick="showPage('contact')">Contact Form</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2027 Nepal Tourism Board. All rights reserved.</span><span>Privacy Policy · Terms · Accessibility</span></div>
+  </footer>
+</div>
+
+<!-- DESTINATIONS PAGE -->
+<div id="page-destinations" class="page">
+  <div id="dest-list">
+    <div class="section">
+      <div class="back-btn" onclick="showPage('home')">← Back to Home</div>
+      <div class="tag">EXPLORE NEPAL</div>
+      <h2 class="section-title">All Destinations</h2>
+      <p class="section-sub">10 remarkable regions — each with its own magic</p>
+      <div class="grid-3">
+        <div class="card" onclick="showDestDetail('ktm')"><div class="card-img d-ktm"><div><div class="card-img-label">Kathmandu</div><div class="card-img-sub">Capital City</div></div></div><div class="card-body"><div class="card-title">Kathmandu Valley</div><p class="card-desc">Ancient temples, palace squares and the spiritual heart of Nepal.</p><div class="card-meta"><span>🏛️ Heritage</span><span>🗓️ Year-round</span></div></div></div>
+        <div class="card" onclick="showDestDetail('pkr')"><div class="card-img d-pkr"><div><div class="card-img-label">Pokhara</div><div class="card-img-sub">Lake City</div></div></div><div class="card-body"><div class="card-title">Pokhara</div><p class="card-desc">Serene lakes, Annapurna panoramas and Nepal's adventure hub.</p><div class="card-meta"><span>🪂 Adventure</span><span>🗓️ Sep–Nov</span></div></div></div>
+        <div class="card" onclick="showDestDetail('chit')"><div class="card-img d-chit"><div><div class="card-img-label">Chitwan</div><div class="card-img-sub">National Park</div></div></div><div class="card-body"><div class="card-title">Chitwan</div><p class="card-desc">Jungle wildlife, rhinos, tigers and elephant-back adventures.</p><div class="card-meta"><span>🦏 Wildlife</span><span>🗓️ Oct–Apr</span></div></div></div>
+        <div class="card" onclick="showDestDetail('lmb')"><div class="card-img d-lmb"><div><div class="card-img-label">Lumbini</div><div class="card-img-sub">Sacred Garden</div></div></div><div class="card-body"><div class="card-title">Lumbini</div><p class="card-desc">Birthplace of Lord Buddha — sacred peace gardens and monasteries.</p><div class="card-meta"><span>☮️ Spiritual</span><span>🗓️ Nov–Mar</span></div></div></div>
+        <div class="card" onclick="showDestDetail('mst')"><div class="card-img d-mst"><div><div class="card-img-label">Mustang</div><div class="card-img-sub">Forbidden Kingdom</div></div></div><div class="card-body"><div class="card-title">Upper Mustang</div><p class="card-desc">Mystical kingdom of Lo Manthang with Tibetan Buddhist culture.</p><div class="card-meta"><span>🏯 Culture</span><span>🗓️ Mar–Nov</span></div></div></div>
+        <div class="card" onclick="showDestDetail('ebc')"><div class="card-img d-ebc"><div><div class="card-img-label">Everest Region</div><div class="card-img-sub">Khumbu</div></div></div><div class="card-body"><div class="card-title">Everest Region</div><p class="card-desc">World's highest peak, Sherpa villages and iconic mountain scenery.</p><div class="card-meta"><span>⛰️ Trekking</span><span>🗓️ Mar–May, Sep–Nov</span></div></div></div>
+        <div class="card" onclick="showPage('home')"><div class="card-img d-ann"><div><div class="card-img-label">Annapurna</div><div class="card-img-sub">Himalayan Range</div></div></div><div class="card-body"><div class="card-title">Annapurna Region</div><p class="card-desc">Diverse landscapes from subtropical to alpine with classic trekking circuits.</p><div class="card-meta"><span>🏔️ Trekking</span><span>🗓️ Oct–Nov</span></div></div></div>
+        <div class="card"><div class="card-img d-rara"><div><div class="card-img-label">Rara Lake</div><div class="card-img-sub">Hidden Gem</div></div></div><div class="card-body"><div class="card-title">Rara Lake</div><p class="card-desc">Nepal's largest lake glittering at 2,990m in a remote national park.</p><div class="card-meta"><span>🏞️ Nature</span><span>🗓️ Apr–Nov</span></div></div></div>
+        <div class="card"><div class="card-img d-ilam"><div><div class="card-img-label">Ilam</div><div class="card-img-sub">Tea Capital</div></div></div><div class="card-body"><div class="card-title">Ilam</div><p class="card-desc">Emerald tea gardens, rolling hills and Eastern Nepal's natural beauty.</p><div class="card-meta"><span>🍵 Tea</span><span>🗓️ Mar–May</span></div></div></div>
+        <div class="card"><div class="card-img d-jnk"><div><div class="card-img-label">Janakpur</div><div class="card-img-sub">Sacred City</div></div></div><div class="card-body"><div class="card-title">Janakpur</div><p class="card-desc">Ancient city of Sita — Maithili art, temples and rich Hindu heritage.</p><div class="card-meta"><span>🕌 Temples</span><span>🗓️ Nov–Mar</span></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Destination Detail -->
+  <div id="dest-detail" style="display:none">
+    <div class="section" id="dest-detail-content"></div>
+  </div>
+</div>
+
+<!-- TREKKING PAGE -->
+<div id="page-trekking" class="page">
+  <div class="section">
+    <div class="back-btn" onclick="showPage('home')">← Back to Home</div>
+    <div class="tag">HIMALAYAN TRAILS</div>
+    <h2 class="section-title">Classic Trekking Routes</h2>
+    <p class="section-sub">Six iconic journeys through Nepal's mountain world</p>
+    <div class="grid-2">
+      <div class="trek-card">
+        <span class="pill pill-orange">Most Popular</span>
+        <div class="trek-name">🏔️ Everest Base Camp Trek</div>
+        <p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">The world's most iconic trek — through Sherpa villages, past ancient monasteries and up to the foot of Everest at 5,364m.</p>
+        <div class="trek-stats">
+          <div class="trek-stat"><div class="trek-stat-label">Duration</div><div class="trek-stat-val">14 days</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Max Elevation</div><div class="trek-stat-val">5,364m</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Difficulty</div><div class="trek-stat-val difficulty-hard">Strenuous</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Est. Cost</div><div class="trek-stat-val">$1,200–$2,500</div></div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap"><span class="pill pill-blue">Guide Required</span><span class="pill pill-green">Best: Oct–Nov</span></div>
+      </div>
+      <div class="trek-card">
+        <span class="pill pill-green">Highlights</span>
+        <div class="trek-name">🔄 Annapurna Circuit</div>
+        <p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">A complete loop around the Annapurna massif — from rice paddies to the world's highest pass at Thorong La (5,416m).</p>
+        <div class="trek-stats">
+          <div class="trek-stat"><div class="trek-stat-label">Duration</div><div class="trek-stat-val">15–21 days</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Max Elevation</div><div class="trek-stat-val">5,416m</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Difficulty</div><div class="trek-stat-val difficulty-hard">Strenuous</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Est. Cost</div><div class="trek-stat-val">$1,000–$2,000</div></div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap"><span class="pill pill-blue">TIMS + ACAP</span><span class="pill pill-green">Best: Oct–Nov</span></div>
+      </div>
+      <div class="trek-card">
+        <div class="trek-name">❄️ Langtang Valley Trek</div>
+        <p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">Scenic valley trek near Kathmandu with yak cheese factories, ancient gompas and Tamang culture.</p>
+        <div class="trek-stats">
+          <div class="trek-stat"><div class="trek-stat-label">Duration</div><div class="trek-stat-val">7–10 days</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Max Elevation</div><div class="trek-stat-val">4,773m</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Difficulty</div><div class="trek-stat-val difficulty-mod">Moderate</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Est. Cost</div><div class="trek-stat-val">$600–$1,200</div></div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap"><span class="pill pill-green">Beginner-friendly</span></div>
+      </div>
+      <div class="trek-card">
+        <div class="trek-name">🌸 Mardi Himal Trek</div>
+        <p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">Nepal's best-kept secret — a less-crowded route with stunning Machhapuchhre (Fishtail) and Annapurna views.</p>
+        <div class="trek-stats">
+          <div class="trek-stat"><div class="trek-stat-label">Duration</div><div class="trek-stat-val">5–7 days</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Max Elevation</div><div class="trek-stat-val">4,500m</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Difficulty</div><div class="trek-stat-val difficulty-mod">Moderate</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Est. Cost</div><div class="trek-stat-val">$400–$800</div></div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap"><span class="pill pill-orange">Hidden Gem</span><span class="pill pill-green">Year-round</span></div>
+      </div>
+      <div class="trek-card">
+        <span class="pill pill-blue">Permit Required</span>
+        <div class="trek-name">🗿 Manaslu Circuit</div>
+        <p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">Remote circuit around the world's 8th highest peak through wild gorges and Tibetan-influenced villages.</p>
+        <div class="trek-stats">
+          <div class="trek-stat"><div class="trek-stat-label">Duration</div><div class="trek-stat-val">14–18 days</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Max Elevation</div><div class="trek-stat-val">5,106m</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Difficulty</div><div class="trek-stat-val difficulty-hard">Strenuous</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Est. Cost</div><div class="trek-stat-val">$1,500–$3,000</div></div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap"><span class="pill pill-blue">Guide Mandatory</span></div>
+      </div>
+      <div class="trek-card">
+        <span class="pill pill-orange">Restricted Area</span>
+        <div class="trek-name">🏯 Upper Mustang Trek</div>
+        <p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">Journey into the ancient Lo Kingdom — a time capsule of Tibetan culture beyond the Annapurna rain shadow.</p>
+        <div class="trek-stats">
+          <div class="trek-stat"><div class="trek-stat-label">Duration</div><div class="trek-stat-val">12–16 days</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Max Elevation</div><div class="trek-stat-val">3,840m</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Difficulty</div><div class="trek-stat-val difficulty-mod">Moderate</div></div>
+          <div class="trek-stat"><div class="trek-stat-label">Est. Cost</div><div class="trek-stat-val">$2,000–$3,500</div></div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap"><span class="pill pill-orange">$500 Permit</span><span class="pill pill-green">Best: Mar–Nov</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADVENTURES PAGE -->
+<div id="page-adventures" class="page">
+  <div class="section">
+    <div class="back-btn" onclick="showPage('home')">← Back to Home</div>
+    <div class="tag">ADRENALINE</div>
+    <h2 class="section-title">Adventure Activities</h2>
+    <p class="section-sub">Nepal isn't just mountains — it's the world's ultimate adventure playground</p>
+    <div class="grid-3">
+      <div class="adv-card"><div class="adv-icon" style="background:#e8f0fb">🪂</div><div class="adv-name">Paragliding</div><div class="adv-price">From $80 · Pokhara</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.4rem">Soar 45 minutes above Phewa Lake with the Annapurna backdrop.</p></div>
+      <div class="adv-card"><div class="adv-icon" style="background:#fdf0e8">🤸</div><div class="adv-name">Bungee Jumping</div><div class="adv-price">From $65 · Bhote Koshi</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.4rem">160m drop from Asia's longest suspension bridge above a raging river.</p></div>
+      <div class="adv-card"><div class="adv-icon" style="background:#e8f5ee">🚣</div><div class="adv-name">White Water Rafting</div><div class="adv-price">From $40/day · Trishuli</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.4rem">Class III–V rapids on Trishuli, Seti, or Karnali rivers.</p></div>
+      <div class="adv-card"><div class="adv-icon" style="background:#f0f4ff">🏔️</div><div class="adv-name">Rock Climbing</div><div class="adv-price">From $30 · Nagarjun</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.4rem">Beginner to expert routes at Nagarjun Forest and Hattiban.</p></div>
+      <div class="adv-card"><div class="adv-icon" style="background:#fdf0e8">🚵</div><div class="adv-name">Mountain Biking</div><div class="adv-price">From $25/day · Kathmandu</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.4rem">Downhill from Shivapuri to Kathmandu Valley through forest trails.</p></div>
+      <div class="adv-card"><div class="adv-icon" style="background:#e8f5ee">🦅</div><div class="adv-name">Zipline</div><div class="adv-price">From $35 · Pokhara</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.4rem">World's steepest zipline — 1.8km at 120kph over Pokhara valley.</p></div>
+      <div class="adv-card"><div class="adv-icon" style="background:#e8f0fb">🐘</div><div class="adv-name">Jungle Safari</div><div class="adv-price">From $50 · Chitwan</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.4rem">Elephant rides, jeep safaris and canoe trips through Chitwan jungle.</p></div>
+      <div class="adv-card"><div class="adv-icon" style="background:#fdf0e8">✈️</div><div class="adv-name">Ultra-light Flight</div><div class="adv-price">From $120 · Pokhara</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.4rem">Fly over Pokhara valley in an ultra-light aircraft with Annapurna views.</p></div>
+      <div class="adv-card"><div class="adv-icon" style="background:#e8f5ee">🎣</div><div class="adv-name">Kayaking</div><div class="adv-price">From $35 · Phewa Lake</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.4rem">Paddle across serene Phewa Lake with mountain reflections all around.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CULTURE PAGE -->
+<div id="page-culture" class="page">
+  <div class="section">
+    <div class="back-btn" onclick="showPage('home')">← Back to Home</div>
+    <div class="tag">HERITAGE</div>
+    <h2 class="section-title">Culture & Heritage</h2>
+    <p class="section-sub">7 UNESCO sites, 125+ ethnic groups, and 3,000 years of living civilization</p>
+    
+    <div style="margin-bottom:2.5rem">
+      <h3 style="font-size:1.1rem;margin-bottom:1rem;color:var(--green)">UNESCO World Heritage Sites</h3>
+      <div class="grid-3">
+        <div class="info-box"><h3>Kathmandu Durbar Square</h3><p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">Medieval palaces of the Malla kings — 50+ temples and courtyards in the valley's ancient hub.</p></div>
+        <div class="info-box"><h3>Pashupatinath Temple</h3><p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">The holiest Hindu temple outside India — sacred to Lord Shiva, set on the banks of the Bagmati river.</p></div>
+        <div class="info-box"><h3>Boudhanath Stupa</h3><p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">One of the world's largest Buddhist stupas, the spiritual center of Tibetan Buddhism in Nepal.</p></div>
+        <div class="info-box"><h3>Swayambhunath</h3><p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">The "Monkey Temple" atop a hill — 2,500 years old, revered by both Hindus and Buddhists.</p></div>
+        <div class="info-box"><h3>Lumbini Sacred Garden</h3><p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">Birthplace of Siddhartha Gautama (Buddha) — sacred garden with monasteries from across the world.</p></div>
+        <div class="info-box"><h3>Chitwan National Park</h3><p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">The first national park of Nepal — protecting Bengal tigers, one-horned rhinos and Gangetic dolphins.</p></div>
+        <div class="info-box"><h3>Sagarmatha National Park</h3><p style="font-size:.8rem;font-family:system-ui,sans-serif;color:var(--text2)">Home of Mount Everest — protecting the unique alpine ecosystem of the Khumbu region and its Sherpa culture.</p></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:2.5rem">
+      <h3 style="font-size:1.1rem;margin-bottom:1rem;color:var(--green)">Traditional Cuisine</h3>
+      <div class="grid-3">
+        <div class="adv-card"><div style="font-size:1.6rem;margin-bottom:.5rem">🍚</div><div class="adv-name">Dal Bhat</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.3rem">Nepal's national dish — lentil soup with rice, curried vegetables and pickles. Refills are always free!</p></div>
+        <div class="adv-card"><div style="font-size:1.6rem;margin-bottom:.5rem">🥟</div><div class="adv-name">Momo</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.3rem">Beloved steamed or fried dumplings — stuffed with buffalo, chicken, or vegetables. Nepal's fast food.</p></div>
+        <div class="adv-card"><div style="font-size:1.6rem;margin-bottom:.5rem">🍜</div><div class="adv-name">Thukpa</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.3rem">Hearty noodle soup from the high Himalayan regions — warming and filling after a day's trek.</p></div>
+        <div class="adv-card"><div style="font-size:1.6rem;margin-bottom:.5rem">🫖</div><div class="adv-name">Butter Tea</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.3rem">Traditional Sherpa drink — tea churned with yak butter and salt. An acquired taste, but a cultural experience!</p></div>
+        <div class="adv-card"><div style="font-size:1.6rem;margin-bottom:.5rem">🍺</div><div class="adv-name">Tongba</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.3rem">Warm millet beer from Eastern Nepal — served in a bamboo vessel with a bamboo straw.</p></div>
+        <div class="adv-card"><div style="font-size:1.6rem;margin-bottom:.5rem">🍛</div><div class="adv-name">Kwati</div><p style="font-size:.78rem;font-family:system-ui,sans-serif;color:var(--text2);margin-top:.3rem">Traditional Newari dish of nine mixed sprouted beans — served during Janai Purnima festival.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLAN TRIP PAGE -->
+<div id="page-plan" class="page">
+  <div class="section">
+    <div class="back-btn" onclick="showPage('home')">← Back to Home</div>
+    <div class="tag">ESSENTIALS</div>
+    <h2 class="section-title">Plan Your Nepal Trip</h2>
+    <p class="section-sub">Everything you need to know before you go</p>
+    <div class="plan-grid" style="margin-bottom:2.5rem">
+      <div class="plan-card"><div class="plan-icon">🛂</div><div class="plan-title">Visa Information</div><div class="plan-desc">Most nationalities get visa on arrival at Tribhuvan Airport. 15-day: $30 · 30-day: $50 · 90-day: $125. Indian nationals don't need a visa.</div></div>
+      <div class="plan-card"><div class="plan-icon">✈️</div><div class="plan-title">Getting There</div><div class="plan-desc">Fly into Tribhuvan International Airport (KTM), Kathmandu. Direct flights from Delhi, Dubai, Bangkok, Doha and more.</div></div>
+      <div class="plan-card"><div class="plan-icon">💰</div><div class="plan-title">Currency</div><div class="plan-desc">Nepalese Rupee (NPR). $1 ≈ 133 NPR. ATMs available in cities. Carry cash in mountain areas. Credit cards in tourist zones.</div></div>
+      <div class="plan-card"><div class="plan-icon">🌤️</div><div class="plan-title">Best Time to Visit</div><div class="plan-desc">Oct–Nov: clearest skies, perfect for trekking. Mar–Apr: rhododendrons bloom. Dec–Feb: cold but peaceful. Avoid June–Aug monsoon.</div></div>
+      <div class="plan-card"><div class="plan-icon">📱</div><div class="plan-title">SIM Cards</div><div class="plan-desc">Ncell and NTC SIM cards available at the airport. Buy a tourist SIM for $5–10 with data. Coverage in most trek routes.</div></div>
+      <div class="plan-card"><div class="plan-icon">🚌</div><div class="plan-title">Getting Around</div><div class="plan-desc">Taxis, buses and tuk-tuks in cities. Domestic flights to Lukla (Everest) and Pokhara. Tourist buses between cities.</div></div>
+      <div class="plan-card"><div class="plan-icon">🏥</div><div class="plan-title">Health & Safety</div><div class="plan-desc">No mandatory vaccines but Hep A, Typhoid and Tetanus recommended. Travel insurance with altitude evacuation cover is essential.</div></div>
+      <div class="plan-card"><div class="plan-icon">🆘</div><div class="plan-title">Emergency Contacts</div><div class="plan-desc">Police: 100 · Ambulance: 102 · Tourist Police: 01-4247041 · HAMS Helicopter Rescue: +977-1-4255033</div></div>
+    </div>
+
+    <div class="tag">BUDGET CALCULATOR</div>
+    <h2 class="section-title" style="margin-top:.5rem">Estimate Your Trip Cost</h2>
+    <p class="section-sub" style="margin-bottom:1.5rem">Customize your itinerary and budget</p>
+    <div class="budget-calc">
+      <div class="budget-row"><span class="budget-label">Number of days</span><select class="budget-input" id="b-days" onchange="calcBudget()"><option value="7">7 days</option><option value="14" selected>14 days</option><option value="21">21 days</option><option value="30">30 days</option></select></div>
+      <div class="budget-row"><span class="budget-label">Travel style</span><select class="budget-input" id="b-style" onchange="calcBudget()"><option value="budget">Budget ($25/day)</option><option value="mid" selected>Mid-range ($60/day)</option><option value="luxury">Luxury ($150/day)</option></select></div>
+      <div class="budget-row"><span class="budget-label">Trekking permit</span><select class="budget-input" id="b-trek" onchange="calcBudget()"><option value="0">No trekking</option><option value="50" selected>TIMS + ACAP ($50)</option><option value="500">Upper Mustang ($500)</option></select></div>
+      <div class="budget-row"><span class="budget-label">Adventure activities</span><select class="budget-input" id="b-adv" onchange="calcBudget()"><option value="0">None</option><option value="100">1–2 activities ($100)</option><option value="250" selected>Package deal ($250)</option></select></div>
+      <div class="budget-total"><span class="budget-total-label">Estimated Total (USD)</span><span class="budget-total-val" id="budget-result">$1,190</span></div>
+      <p style="font-size:.72rem;font-family:system-ui,sans-serif;color:var(--text3);margin-top:.7rem">*Excludes international flights (~$400–900 return). Local travel, food and accommodation included.</p>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY PAGE -->
+<div id="page-gallery" class="page">
+  <div class="section">
+    <div class="back-btn" onclick="showPage('home')">← Back to Home</div>
+    <div class="tag">VISUAL NEPAL</div>
+    <h2 class="section-title">Photo Gallery</h2>
+    <p class="section-sub">Colors, landscapes, people and moments from across Nepal</p>
+    <div class="gallery-grid">
+      <div class="gallery-item d-ebc" style="height:180px"></div>
+      <div class="gallery-item d-pkr" style="height:180px"></div>
+      <div class="gallery-item d-chit" style="height:180px"></div>
+      <div class="gallery-item d-ktm" style="height:180px;grid-column:span 2"></div>
+      <div class="gallery-item d-lmb" style="height:180px"></div>
+      <div class="gallery-item d-mst" style="height:180px"></div>
+      <div class="gallery-item d-ann" style="height:180px"></div>
+      <div class="gallery-item d-ilam" style="height:180px;grid-column:span 2"></div>
+      <div class="gallery-item d-rara" style="height:180px"></div>
+      <div class="gallery-item d-jnk" style="height:180px"></div>
+    </div>
+    <div style="text-align:center;margin-top:2rem"><button class="btn-primary" style="background:var(--green)">Load More Photos</button></div>
+  </div>
+</div>
+
+<!-- CONTACT PAGE -->
+<div id="page-contact" class="page">
+  <div class="section">
+    <div class="back-btn" onclick="showPage('home')">← Back to Home</div>
+    <div class="tag">GET IN TOUCH</div>
+    <h2 class="section-title">Contact Us</h2>
+    <p class="section-sub">Nepal Tourism Board is here to help you plan the perfect trip</p>
+    <div class="grid-2">
+      <div class="contact-form">
+        <div class="form-group">
+          <label class="form-label">Your name</label>
+          <input type="text" class="form-input" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <input type="email" class="form-input" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <select class="form-input"><option>Trekking Inquiry</option><option>Visa Information</option><option>Tour Packages</option><option>Hotel Booking</option><option>General Inquiry</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-input form-textarea" placeholder="Tell us about your Nepal travel plans..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="this.textContent='Message Sent! ✓';this.style.background='#2d9e5f'">Send Message</button>
+      </div>
+      <div>
+        <div class="contact-info" style="margin-bottom:1rem">
+          <h3 style="font-size:.95rem;margin-bottom:1rem;color:var(--green);font-family:system-ui,sans-serif">Nepal Tourism Board</h3>
+          <div class="contact-info-item"><span class="contact-info-icon">📍</span><div><span class="contact-info-label">Address</span><span class="contact-info-val">Bhrikutimandap, Kathmandu, Nepal</span></div></div>
+          <div class="contact-info-item"><span class="contact-info-icon">📞</span><div><span class="contact-info-label">Phone</span><span class="contact-info-val">+977-1-4256909</span></div></div>
+          <div class="contact-info-item"><span class="contact-info-icon">📧</span><div><span class="contact-info-label">Email</span><span class="contact-info-val">info@ntb.gov.np</span></div></div>
+          <div class="contact-info-item"><span class="contact-info-icon">⏰</span><div><span class="contact-info-label">Hours</span><span class="contact-info-val">Sun–Fri, 9am–5pm NPT</span></div></div>
+        </div>
+        <div class="contact-info">
+          <h3 style="font-size:.95rem;margin-bottom:1rem;color:var(--green);font-family:system-ui,sans-serif">Tourist Police</h3>
+          <div class="contact-info-item"><span class="contact-info-icon">🚔</span><div><span class="contact-info-label">24/7 Emergency</span><span class="contact-info-val">01-4247041</span></div></div>
+          <div class="contact-info-item"><span class="contact-info-icon">🏥</span><div><span class="contact-info-label">Altitude Rescue</span><span class="contact-info-val">+977-1-4255033</span></div></div>
+          <div class="contact-info-item"><span class="contact-info-icon">🆘</span><div><span class="contact-info-label">National Emergency</span><span class="contact-info-val">100</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const destData = {
+  ktm: {label:'Kathmandu Valley',sub:'Ancient Capital of Nepal',cls:'d-ktm',desc:'The Kathmandu Valley is the cultural and political heart of Nepal, home to an extraordinary concentration of UNESCO World Heritage Sites. Three medieval cities — Kathmandu, Patan, and Bhaktapur — form a triangle of ancient palace squares, temples, and living traditions spanning over 2,000 years.',attractions:['Pashupatinath Temple','Boudhanath Stupa','Swayambhunath (Monkey Temple)','Patan Durbar Square','Bhaktapur Durbar Square','Thamel District','Asan Bazaar'],info:[['Best time','Oct–Apr'],['Duration','3–5 days'],['Altitude','1,400m'],['Budget/day','$40–$120'],['Language','Nepali, Newari'],['Currency','NPR (133/USD)']]},
+  pkr: {label:'Pokhara',sub:'Lake City & Adventure Hub',cls:'d-pkr',desc:'Nestled at the foot of the Annapurna Himalayan range, Pokhara sits beside the serene Phewa Lake. The city reflects perfect mountain silhouettes in its still waters — a striking contrast of ice and blue. Nepal\'s adventure capital offers paragliding, rafting, zip-lining, and serves as the gateway to the Annapurna Circuit and Poon Hill.',attractions:['Phewa Lake','Sarangkot Viewpoint','Gupteshwor Mahadev Cave','Peace Pagoda','Davis Falls','Pokhara Regional Museum','Begnas Lake'],info:[['Best time','Oct–Nov, Mar–Apr'],['Duration','2–4 days'],['Altitude','820m'],['Budget/day','$35–$100'],['Distance from KTM','200km (6hrs)'],['Airport','Pokhara Regional']]},
+  chit: {label:'Chitwan National Park',sub:'UNESCO World Heritage Wildlife Reserve',cls:'d-chit',desc:'Chitwan is Nepal\'s wildlife crown jewel — a UNESCO World Heritage Site protecting one of Asia\'s finest wildlife reserves. Dense Terai jungle shelters one-horned rhinos, Bengal tigers, gharial crocodiles and 543 species of birds. Experience it by elephant-back, jeep, canoe or on foot with expert naturalist guides.',attractions:['One-horned Rhino Safari','Tiger Tracking Walks','Elephant Breeding Centre','Bird Watching Tours','Canoe Rides on Rapti River','Tharu Cultural Show','Jungle Walks'],info:[['Best time','Oct–Apr'],['Duration','2–3 days'],['Altitude','150m'],['Budget/day','$50–$150'],['Distance from KTM','150km (4hrs)'],['Big Five Chance','Tigers, Rhinos, Elephants, Bears, Leopards']]},
+  lmb: {label:'Lumbini',sub:'Birthplace of Lord Buddha',cls:'d-lmb',desc:'Lumbini is one of the holiest sites in the world — the birthplace of Siddhartha Gautama, who became the Buddha around 623 BC. This sacred garden contains 42 monasteries representing Buddhist countries worldwide, the sacred Bodhi tree, and the Ashoka Pillar marking the exact birth site. A place of profound peace and pilgrimage.',attractions:['Maya Devi Temple','Ashoka Pillar','Sacred Garden','World Peace Pagoda','Myanmar Monastery','Korean Temple','Lumbini Museum'],info:[['Best time','Nov–Mar'],['Duration','1–2 days'],['Altitude','100m'],['Budget/day','$30–$80'],['Distance from KTM','280km'],['Significance','UNESCO Heritage Site']]},
+  mst: {label:'Upper Mustang',sub:'The Forbidden Kingdom of Lo',cls:'d-mst',desc:'Upper Mustang was closed to the outside world until 1992. Often called the "Last Forbidden Kingdom," it preserves an ancient Tibetan Buddhist civilization untouched by modernity. The walled city of Lo Manthang, with its palace and monasteries, remains one of Asia\'s most extraordinary living medieval cities.',attractions:['Lo Manthang Walled City','Palace of Lo King','Thubchen and Jampa Gombas','Sky Caves (Mustang Caves)','Ghar Gompa','Choser Village','Red Cliffs of Chele'],info:[['Best time','Mar–Nov'],['Duration','12–16 days trek'],['Altitude','3,840m (Lo Manthang)'],['Permit cost','$500 (10 days)'],['Access','Jomsom via Pokhara'],['Guide','Mandatory']]},
+  ebc: {label:'Everest Base Camp',sub:'Roof of the World — 5,364m',cls:'d-ebc',desc:'Standing at Everest Base Camp (5,364m) and gazing up at the world\'s highest point (8,849m) is a life-defining experience. The trek through the Khumbu region passes Sherpa villages, ancient monasteries at Tengboche, and the iconic Khumbu Icefall. This is the most celebrated trek on earth — and it deserves every superlative.',attractions:['Everest Base Camp (5,364m)','Kala Patthar Viewpoint (5,644m)','Tengboche Monastery','Namche Bazaar','Sagarmatha National Park','Sherpa Culture Museum','Ama Dablam Views'],info:[['Best time','Mar–May, Sep–Nov'],['Duration','12–16 days'],['Max altitude','5,644m (Kala Patthar)'],['Cost','$1,200–$2,500'],['Fitness','High required'],['Permit','NP Entry + TIMS']]}
+};
+
+function showDestDetail(id) {
+  const d = destData[id];
+  if (!d) return;
+  document.getElementById('dest-list').style.display = 'none';
+  const detail = document.getElementById('dest-detail');
+  detail.style.display = 'block';
+  document.getElementById('dest-detail-content').innerHTML = `
+    <div class="back-btn" onclick="document.getElementById('dest-list').style.display='block';document.getElementById('dest-detail').style.display='none'">← All Destinations</div>
+    <div class="detail-hero ${d.cls}"><div><p class="detail-hero-tag">${d.sub}</p><h1>${d.label}</h1></div></div>
+    <div class="detail-grid">
+      <div>
+        <p style="font-family:system-ui,sans-serif;font-size:.9rem;color:var(--text2);line-height:1.7;margin-bottom:1.5rem">${d.desc}</p>
+        <h3 style="font-size:1rem;margin-bottom:.7rem;color:var(--green)">Top Attractions</h3>
+        <div class="attractions-list">${d.attractions.map(a=>`<span class="pill pill-green">${a}</span>`).join('')}</div>
+      </div>
+      <div>
+        <div class="info-box">
+          <h3>Quick Facts</h3>
+          ${d.info.map(r=>`<div class="info-row"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('')}
+        </div>
+        <button class="btn-primary" style="background:var(--green);width:100%;padding:.7rem" onclick="showPage('plan')">Plan This Trip</button>
+      </div>
+    </div>
+  `;
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const page = document.getElementById('page-'+id);
+  if (page) page.classList.add('active');
+  const navLink = document.getElementById('nav-'+id);
+  if (navLink) navLink.classList.add('active');
+  // Reset destination detail view
+  if (id !== 'destinations') {
+    const list = document.getElementById('dest-list');
+    const detail = document.getElementById('dest-detail');
+    if (list) list.style.display = 'block';
+    if (detail) detail.style.display = 'none';
+  }
+  window.scrollTo(0,0);
+}
+
+function calcBudget() {
+  const days = parseInt(document.getElementById('b-days').value);
+  const style = document.getElementById('b-style').value;
+  const trek = parseInt(document.getElementById('b-trek').value);
+  const adv = parseInt(document.getElementById('b-adv').value);
+  const rateMap = {budget:25, mid:60, luxury:150};
+  const rate = rateMap[style];
+  const total = days * rate + trek + adv;
+  document.getElementById('budget-result').textContent = '$' + total.toLocaleString();
+}
+</script>
+</body>
+</html>
